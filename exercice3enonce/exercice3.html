@@ -1,0 +1,79 @@
+<!-- EXERCICE 3 
+CONSIGNES : 
+ - Fais du refactoring sur la partie Javascript, il faudra à minima:
+
+    - Redécouper la fonction gallery
+
+    - Gérer les erreurs si l'API est inaccessible
+
+ -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .photo {
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 200px;
+            text-align: center;
+        }
+        .photo img {
+            width: 100%;
+            height: auto;
+        }
+        .photo-title {
+            padding: 10px;
+            background-color: #f8f8f8;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Photo Gallery</h1>
+    <div class="gallery" id="gallery"></div>
+
+    <script>
+	function gallery() {
+		fetch('<https://jsonplaceholder.typicode.com/photos>').then(response => response.json())
+		.then(photos => {
+			const gallery = document.getElementById('gallery');
+			photos.slice(0, 50).forEach(photo => {
+				const photoDiv = document.createElement('div');
+				photoDiv.className = 'photo';
+				const img = document.createElement('img');
+				img.src = photo.thumbnailUrl;
+				img.alt = photo.title;
+				const title = document.createElement('div');
+				title.className = 'photo-title';
+				title.textContent = photo.title;
+				photoDiv.appendChild(img);
+				photoDiv.appendChild(title);
+				gallery.appendChild(photoDiv);
+			});
+		})
+	}
+	// Appel de la fonction pour afficher les photos au chargement de la page
+	window.onload = gallery;
+    </script>
+</body>
+</html>
